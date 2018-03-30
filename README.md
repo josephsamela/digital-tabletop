@@ -1,4 +1,5 @@
 # Digital Table Top
 
-![alt text](/screenshot.png)
+Command console for controlling digital table tops! 
 
+![Alt text](/screenshot.PNG)
