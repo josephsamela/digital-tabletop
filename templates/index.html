@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <script src="static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+
+
+
+</head>
+
+<body>
+
+    <div class="container col-12">
+        <div class="row">
+            <div class="col-2" id="map_selector">
+                <h2>Maps</h2>
+                <div class="list-group">
+
+                    <button type="button" id="map1" name="map-thumbnail" class="list-group-item list-group-item-action p-0 rounded custom_card active" onclick="switchMap(this, '/static/maps/default.jpg');">
+                        <div class="d-flex justify-content-between">
+                            <div class="p-2 m-0 map_description">
+                                <h5>Default</h5>
+                                <small>Default loading screen.</small>
+                            </div>
+                            <div class="card-img-bottom map-thumbnail-1 rounded-right"></div>
+                        </div>
+                    </button>
+
+                    <button type="button" id="map2" name="map-thumbnail" class="list-group-item list-group-item-action p-0 rounded custom_card" onclick="switchMap(this, '/static/maps/City of Redwall - Overview map of the City of Redwall by quarter.jpg');">
+                        <div class="d-flex justify-content-between">
+                            <div class="p-2 m-0 map_description">
+                                <h5>City of Redwall</h5>
+                                <small>Overview map of the City of Redwall by quarter.</small>
+                            </div>
+                            <div class="card-img-bottom map-thumbnail-2 rounded-right"></div>
+                        </div>
+                    </button>
+
+                    <button type="button" id="map3" name="map-thumbnail" class="list-group-item list-group-item-action p-0 rounded custom_card" onclick="switchMap(this, '/static/maps/Hrothgars Cottage - Home of Hrothgar the dwarf.jpg');">
+                        <div class="d-flex justify-content-between">
+                            <div class="p-2 m-0 map_description">
+                                <h5>Hrothgar's Cottage</h5>
+                                <small>Home of Hrothgar the dwarf.</small>
+                            </div>
+                            <div class="card-img-bottom map-thumbnail-3 rounded-right"></div>
+                        </div>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="col" id="map_preview">
+
+                <!-- <nav class="navbar navbar-light bg-light nav-pills nav-fill">
+                    <a class="nav-item nav-link active" href="#">Fog</a>
+                    <a class="nav-item nav-link" href="#">Atmosphere</a>
+                    <a class="nav-item nav-link" href="#">Theme</a>
+                    <a class="nav-item nav-link disabled" href="#">Lock</a>
+                </nav> -->
+
+                <img id="map_preview_image" src="static/maps/default.jpg" class="img-fluid rounded mx-auto d-block">
+
+            </div>
+
+            <div class="col-3" id="theme_music">
+                <h2>Theme 🔁</h2>
+                <div class="list-group">
+
+                    <button type="button" id="player1_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Somewhere Beyond The Sea
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" loop controlsList="nodownload" style="width:100%" id="player1">
+                            <source id="theme" src="static/audio/theme/Beyond the Sea - Theme.mp3">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player2_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Rising from the Ashes
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" loop controlsList="nodownload" id="player2">
+                            <source id="theme" src="static/audio/theme/Rising from the Ashes - Theme.wav">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player3_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Enter the Lair
+                                <small>Leitmotif</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" loop controlsList="nodownload" id="player3">
+                            <source id="theme" src="static/audio/theme/Enter the Lair - Leitmotif.mp3">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player4_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Nero Sighted
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" loop controlsList="nodownload" id="player4">
+                            <source id="theme" src="static/audio/theme/Nero Sighted - Theme.mp3">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player5_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Striking Out
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" loop controlsList="nodownload" id="player5">
+                            <source id="theme" src="static/audio/theme/Striking Out - Theme.wav">
+                        </audio>
+                    </button>
+
+
+                </div>
+
+            </div>
+
+            <div class="col-3" id="effect_music">
+
+                <h2>Effects 🔂</h2>
+
+                <div class="list-group">
+                    <button type="button" id="player6_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Somewhere Beyond The Sea
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" controlsList="nodownload" style="width:100%" id="player6">
+                            <source id="theme" src="static/audio/theme/Beyond the Sea - Theme.mp3">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player7_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Rising from the Ashes
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" controlsList="nodownload" id="player7">
+                            <source id="theme" src="static/audio/theme/Rising from the Ashes - Theme.wav">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player8_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Enter the Lair
+                                <small>Leitmotif</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" controlsList="nodownload" id="player8">
+                            <source id="theme" src="static/audio/theme/Enter the Lair - Leitmotif.mp3">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player9_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Nero Sighted
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" controlsList="nodownload" id="player9">
+                            <source id="theme" src="static/audio/theme/Nero Sighted - Theme.mp3">
+                        </audio>
+                    </button>
+
+                    <button type="button" id="player10_button" class="list-group-item list-group-item-action rounded custom_card">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>Striking Out
+                                <small>Theme</small>
+                            </h6>
+                        </div>
+                        <audio controls preload="auto" controlsList="nodownload" id="player10">
+                            <source id="theme" src="static/audio/theme/Striking Out - Theme.wav">
+                        </audio>
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    var player = document.getElementsByTagName("audio");
+    for (var i = 0; i < player.length; i++) {
+
+        document.getElementById(player[i].id).addEventListener('play', function (event) {
+            player_play(event.target);
+        });
+        document.getElementById(player[i].id).addEventListener('pause', function (event) {
+            console.log()
+            player_pause(event.target);
+        });
+        function player_play(element) {
+            document.getElementById(element.id + "_button").classList.add("active");
+        }
+        function player_pause(element) {
+            document.getElementById(element.id + "_button").classList.remove("active");
+        }
+    }
+
+    function switchMap(element, path) {
+        console.log(element)
+        console.log(path)
+
+        var map_buttons = document.getElementsByName("map-thumbnail");
+
+        for (i = 0; i < map_buttons.length; i++) {
+            document.getElementsByName("map-thumbnail")[i].classList.remove("active")
+        }
+        document.getElementById(element.id).classList.add("active");
+        
+        document.getElementById("map_preview_image").src = path;
+
+        var url = window.location.href+"update";
+        var params = ["map", path];
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        //Send the proper header information along with the request
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+</script>
+
+<style type="text/css">
+    .map-thumbnail-1 {
+        background: url("/static/maps/default.jpg") center no-repeat;
+    }
+    .map-thumbnail-2 {
+        background: url("/static/maps/City of Redwall - Overview map of the City of Redwall by quarter.jpg") center no-repeat;
+    }
+    .map-thumbnail-3 {
+        background: url("/static/maps/Hrothgars Cottage - Home of Hrothgar the dwarf.jpg") center no-repeat;
+    }
+</style>

@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>Board</title>
+</head>
+
+<style type="text/css">
+    body {
+        padding: 0px;
+        margin: 0px;
+        background-color: black
+    }
+
+    img {
+        height: 100vh;
+        display: block;
+        margin-left: auto;
+        margin-right: auto
+    }
+</style>
+
+<body>
+    <img id="map" src="static\maps\default.jpg" align="middle">
+</body>
+
+<script>
+
+    var getJSON = function (url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            var status = xhr.status;
+            if (status === 200) {
+                callback(null, xhr.response);
+            } else {
+                callback(status, xhr.response);
+            }
+        };
+        xhr.send();
+    };
+
+    setInterval(function () {
+        getJSON(window.location.href.split('/')[0]+"update",
+            function (err, data) {
+                if (err !== null) {
+                    console.log('Something went wrong: ' + err);
+                } else {
+                    document.getElementById("map").src = data.map;
+                    console.log(data.map)
+                }
+            });
+    }, 1000);
+
+</script>
+
+</html>

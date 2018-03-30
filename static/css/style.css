@@ -1,0 +1,54 @@
+
+#map_selector{
+   padding: 1em; 
+   overflow-y: scroll; 
+   height:100vh
+}
+
+#map_preview{
+    padding:0px; 
+    height: 100vh; 
+    padding: 1em
+}
+
+#theme_music{
+    padding: 1em; 
+    overflow-y: scroll;
+    height:100vh
+}
+
+#effect_music{ 
+    padding: 1em; 
+    overflow-y: scroll; 
+    height:100vh
+}
+
+#map_preview_image{
+    max-height: 100%
+    /* margin:0px; 
+    height:100% */
+}
+
+.map_description {
+    width: 100%
+}
+
+h6 {
+    margin: 4px;
+    margin-bottom: 1em;
+}
+
+audio {
+    width: 100%;
+}
+
+.custom_card {
+    margin-bottom:0.5em;
+    margin-top:0.5em;
+}
+
+.card-img-bottom {
+    background-size: cover;
+    height: 7.9em;
+    width: 7em;
+  }
