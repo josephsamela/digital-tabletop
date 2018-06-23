@@ -1,62 +1,55 @@
-from flask import Flask, render_template, request, jsonify
-app = Flask(__name__)
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
 from os import walk
+import json
+import socket
+import webbrowser
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'pathfinder'
+socketio = SocketIO(app)
 
-MAP = "static/maps/default - Default Loading Screen.jpg"
-
-MAPS_PATH = "static/maps/"
-THEME_PATH = "static/audio/theme/"
-EFFECTS_PATH = "static/audio/effect/"
+MAP = "static/maps/default.jpg"
 
 @app.route("/")
 def index():
+    maps = generate_maps("static/maps/")
+    effects = generate_effects("static/audio/effect/")
+    themes = generate_themes("static/audio/theme/")
+    return render_template('index.html', themes=themes, maps=maps, effects=effects)
 
-    themes = generate_themes(THEME_PATH)
-    maps = generate_maps(MAPS_PATH)
-    effects = generate_effects(EFFECTS_PATH)
-
-    return render_template('index.html', map=MAP, themes=themes, maps=maps, effects=effects)
-
-@app.route("/test")
-def test():
-    return render_template('test.html')
-
-@app.route("/update", methods = ['POST', 'GET'])
-def update():
-
-    if request.method == "POST":
-        data = request.get_data().decode('utf-8')
-        print(data)
-
-        content, path = data.split(",")
-
-        global MAP
-
-        print(content)
-        print(path)
-
-        if content == "map":
-            MAP = path
-        else:
-            pass
-
-        return "True"
-    
-    if request.method == "GET":
-        return jsonify(map=MAP)
-
-@app.route("/board", methods = ['POST', 'GET'])
+@app.route("/board")
 def board():
-    if request.method == "POST":
-        print("post!")
-    return render_template('board.html', map=MAP)
+    global MAP
+    return render_template('board.html', maps=MAP)
 
-def get_file_list(path):
-    f = []
-    for (dirpath, dirnames, filenames) in walk(path):
-        f.extend(filenames)
-    return f
+@socketio.on('message')
+def handle_message(message):
+    print('   MESSAGE: ' + message)
+    if message == "New connection!":
+        emit('update map', MAP, broadcast=True)
+
+@socketio.on('update map')
+def handle_message(message):
+    print('UPDATE MAP: ' + message)
+    global MAP
+    MAP = message
+    emit('update map', message, broadcast=True)
+
+def generate_maps(theme_path):
+    text = ''
+    path_list = get_file_list(theme_path)
+    for f in path_list:
+        path = theme_path+f
+        if "default.jpg" in f:
+            continue
+        if "-" in f:
+            title, subtitle = f.split("-")
+        else:
+            title = f
+        template = "<div id='"+path+"' name='map-thumbnail' onclick='update_map(this)' class='uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-grid'><div class='uk-flex-last@s uk-card-media-right uk-cover-container'><img src='"+path+"' uk-cover><canvas width='400' height='100'></canvas></div><div><div class='uk-card-body'><div class='uk-card-badge uk-label'>Map</div><h1 class='uk-card-title'>"+title+"</h1><p>"+subtitle[0:-3]+"</p></div></div></div>"
+        text = text+template+'\n\n'
+    return text
 
 def generate_themes(theme_path):
     text = ''
@@ -66,39 +59,51 @@ def generate_themes(theme_path):
         print(f)
         path = theme_path+f
         title, subtitle = f.split("-")
-        template = '<button type="button" id="player'+str(map_num)+'_button" class="list-group-item list-group-item-action rounded custom_card"><div class="d-flex w-100 justify-content-between"><h6>'+title+'<small>'+subtitle+'</small></h6></div><audio controls loop preload="auto" controlsList="nodownload" style="width:100%" id="player'+str(map_num)+'"><source id="theme" src="'+path+'"></audio></button>'
+        template = "<div id='player"+str(map_num)+"' class='uk-card uk-card-default uk-width-1-1@m uk-margin'><div class='uk-card-badge uk-label'>"+subtitle[0:-4]+"</div><div class='uk-card-body'><h1 class='uk-card-title'>"+title+"</h1><audio id='player_control"+str(map_num)+"' controls preload='auto' controlsList='nodownload' style='width:100%'><source id='theme' src='"+path+"'></audio></div></div>"
         text = text+template+'\n\n'
         map_num += 1
     return text
 
 def generate_effects(theme_path):
-    text = ''
+    text = '' 
     path_list = get_file_list(theme_path)
-    map_num = 100
+    map_num = 10000
     for f in path_list:
         print(f)
         path = theme_path+f
         title, subtitle = f.split("-")
-        template = '<button type="button" id="player'+str(map_num)+'_button" class="list-group-item list-group-item-action rounded custom_card"><div class="d-flex w-100 justify-content-between"><h6>'+title+'<small>'+subtitle+'</small></h6></div><audio controls preload="auto" controlsList="nodownload" style="width:100%" id="player'+str(map_num)+'"><source id="theme" src="'+path+'"></audio></button>'
+        template = "<div id='player"+str(map_num)+"' class='uk-card uk-card-default uk-width-1-1@m uk-margin'><div class='uk-card-badge uk-label'>"+subtitle[0:-4]+"</div><div class='uk-card-body'><h1 class='uk-card-title'>"+title+"</h1><audio id='player_control"+str(map_num)+"' controls loop preload='auto' controlsList='nodownload' style='width:100%;'><source id='theme' src='"+path+"'></audio></div></div>"
         text = text+template+'\n\n'
         map_num += 1
     return text
 
-def generate_maps(theme_path):
-    text = ''
-    path_list = get_file_list(theme_path)
-    map_num = 1
-    for f in path_list:
-        print(f)
-        path = theme_path+f
-        title, subtitle = f.split("-")
-        template = '<button type="button" id="map'+str(map_num)+'" name="map-thumbnail" class="list-group-item list-group-item-action p-0 rounded custom_card" onclick="switchMap(this, \''+path+'\');"><div class="d-flex justify-content-between"><div class="p-2 m-0 map_description"><h5>'+title+'</h5><small>'+subtitle+'</small></div><div class="card-img-bottom map-thumbnail-'+str(map_num)+' rounded-right" style="background: url(\''+path+'\') center no-repeat;"></div></div></button>'
-        text = text+template+'\n\n'
-        map_num += 1
-    return text
-
-# curl -POST localhost:5000/board -d "static/img/map.jpg"
+def get_file_list(path):
+    f = []
+    for (dirpath, dirnames, filenames) in walk(path):
+        f.extend(filenames)
+    return f
 
 if __name__ == '__main__':
-#    app.run(debug = True)
-   app.run(host='0.0.0.0')
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    port = config['port']
+    address = config['address']
+
+    if port == 80:
+        if address == "0.0.0.0":
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            address = s.getsockname()[0]
+            s.close()
+            print("Running on http://"+address)
+        else:
+            print("Running on http://"+address)
+    else:
+        print("Running on http://"+address+":"+port)
+
+    url = "http://"+address+":"+str(port)
+    # webbrowser.open(url, new=1, autoraise=True)
+    # webbrowser.open(url+"/board", new=2, autoraise=True)
+
+    socketio.run(app, host=address, port=port)

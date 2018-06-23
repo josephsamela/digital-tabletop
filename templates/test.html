@@ -1,56 +1,21 @@
-<!DOCTYPE html>
+<!DOCTYPE <!DOCTYPE html>
+<html>
 
 <head>
-    <title>Test!</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
 </head>
 
 <body>
 
-    <h1>Images</h1>
-    <button onclick="update('map','static/img/default.jpg')">Default</button>
-    <button onclick="update('map','static/img/map.jpg')">Map</button>
-    <button onclick="update('map','static/img/dog.jpg')">Dog</button>
-
-    <h1>Theme</h1>
-    <button onclick="update('theme','static/audio/default.mp3')">Default</button>
-    <button onclick="update('theme','static/audio/beyond.mp3')">Beyond The Sea</button>
-    <button onclick="update('theme','static/audio/comeback.wav')">Comeback</button>
-    <button onclick="update('theme','static/audio/out.wav')">Out</button>
-
-    <p>Default</p>
-    <audio controls loop controlsList="nodownload">
-        <source id="theme" src="static/audio/default.mp3">
-    </audio>
-
-    <p>Beyond The Sea</p>
-    <audio controls loop controlsList="nodownload">
-        <source id="theme" src="static/audio/beyond.mp3">
-    </audio>
-
-    <p>Comeback</p>
-    <audio controls loop controlsList="nodownload">
-        <source id="theme" src="static/audio/comeback.wav">
-    </audio>
-
-    <p>Out</p>
-    <audio controls loop controlsList="nodownload">
-        <source id="theme" src="static/audio/out.wav">
+    <audio preload="auto" controls="controls">
+        <source src="https://urlofmp3.mp3" type="audio/mp3">
     </audio>
 
 </body>
 
-<script>
-
-    function update(id, path) {
-        var url = "http://localhost:5000/update";
-        var params = [id, path];
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-
-        //Send the proper header information along with the request
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        xhr.send(params);
-    }
-
-</script>
+</html>

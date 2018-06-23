@@ -1,57 +1,45 @@
+<!DOCTYPE <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Board</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Press F11 Fullscreen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/socket.io.dev.js"></script>
 </head>
 
-<style type="text/css">
+<style>
     body {
-        padding: 0px;
+        background-color: black;
         margin: 0px;
-        background-color: black
     }
 
     img {
-        height: 100vh;
+        /* height: 100vh; */
+        width: 100vw;
         display: block;
         margin-left: auto;
-        margin-right: auto
+        margin-right: auto;
     }
 </style>
 
 <body>
-    <img id="map" src="{{map}}" align="middle">
+    <img id="map" src="static/maps/default.jpg">
 </body>
 
 <script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-    var getJSON = function (url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.responseType = 'json';
-        xhr.onload = function () {
-            var status = xhr.status;
-            if (status === 200) {
-                callback(null, xhr.response);
-            } else {
-                callback(status, xhr.response);
-            }
-        };
-        xhr.send();
-    };
+    socket.on('connect', function () {
+        socket.emit('message', "New connection!");
+    });
 
-    setInterval(function () {
-        getJSON(window.location.href.split('/')[0]+"update",
-            function (err, data) {
-                if (err !== null) {
-                    console.log('Something went wrong: ' + err);
-                } else {
-                    document.getElementById("map").src = data.map;
-                    console.log(data.map)
-                }
-            });
-    }, 1000);
-
+    socket.on('update map', function (path) {
+        console.log(path)
+        document.getElementById("map").src = path;
+    });
 </script>
 
 </html>
