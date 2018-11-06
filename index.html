@@ -22,9 +22,6 @@
         <div class="icon icon-left" onclick="panel_update(this, 'effect', 'left');">
             <a><i class="fas fa-bolt"></i></a>
         </div>
-        <div class="icon icon-left" onclick="panel_update(this, 'light', 'left');">
-            <a><i class="fas fa-lightbulb"></i></a>
-        </div>
         <div class="icon icon-left" onclick="panel_update(this, 'fog', 'left');">
             <a><i class="fas fa-cloud"></i></a>
         </div>
@@ -35,6 +32,9 @@
     </div>
     <div id="map" class="column left panel">
         <h1>Maps</h1>
+
+        <div class="card">Hello</div>
+
         <p>list of maps</p>
         <ul>
             <li>map1</li>
@@ -45,13 +45,10 @@
     </div>
     <div id="effect" class="column left panel">
         <h1>Effects</h1>
+        <p>Darkness<input type="range" step="0.01" min="0" max="1" value="0" oninput="darknessSlider(this);"></p>
         <p><input type="checkbox"> Rain</p>
         <p><input type="checkbox"> Thunderstorm</p>
         <p><input type="checkbox"> Snow</p>
-    </div>
-    <div id="light" class="column left panel">
-        <h1>Lights</h1>
-        <p>Darkness<input type="range" step="0.01" min="0" max="1" value="0" oninput="darknessSlider(this);"></p>
     </div>
     <div id="fog" class="column left panel">
         <h1>Fog</h1>

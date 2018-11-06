@@ -21,7 +21,7 @@ body{
 }
 
 .left{
-    width: 300px;
+    width: 200px;
     float: left;
 }
 .middle {
@@ -29,13 +29,14 @@ body{
     background-color: #1e1e1e;
 }
 .right {
-    width: 300px;
+    width: 200px;
     float: right;
 }
 
 .panel{
     margin: 1em;
     margin-bottom: 0px;
+    margin-top: 0px;
     background-color: #252526;
 }
 
@@ -87,4 +88,11 @@ h1 {
 #canvas_fog{
     /* mix-blend-mode: difference */
     mix-blend-mode: multiply;
+}
+
+.card {
+    width: 100%;
+    padding:5px;
+    padding-right:0px;
+    background: #37373d;
 }
