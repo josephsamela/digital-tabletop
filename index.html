@@ -34,52 +34,253 @@
         <h1>Maps</h1>
 
         <div class="card">Hello</div>
+        <div class="card">Hello</div>
+        <div class="card">Hello</div>
+        <div class="card">Hello</div>
+        <div class="card">Hello</div>
+        <div class="card">Hello</div>
+        <div class="card">Hello</div>
+        <div class="card">Hello</div>
 
-        <p>list of maps</p>
-        <ul>
-            <li>map1</li>
-            <li>map2</li>
-            <li>map3</li>
-            <li>map4</li>
-        </ul>
     </div>
     <div id="effect" class="column left panel">
         <h1>Effects</h1>
-        <p>Darkness<input type="range" step="0.01" min="0" max="1" value="0" oninput="darknessSlider(this);"></p>
-        <p><input type="checkbox"> Rain</p>
-        <p><input type="checkbox"> Thunderstorm</p>
-        <p><input type="checkbox"> Snow</p>
+        <div class="card">
+            <p>Darkness<input type="range" step="0.01" min="0" max="1" value="0" oninput="darknessSlider(this);" style="width:100%"></p>
+        </div>
+        <div class="card">
+            <p><input type="checkbox"> Rain</p>
+        </div>
+        <div class="card">
+            <p><input type="checkbox"> Thunderstorm</p>
+        </div>
+        <div class="card">
+            <p><input type="checkbox"> Snow</p>
+        </div>
     </div>
     <div id="fog" class="column left panel">
         <h1>Fog</h1>
-        <hr>
-        <p>Enable <input id="fog_enable" type="checkbox" value="" onclick="updatefogview()"></p>
-        <p>DM View <input id="fog_dmview" type="checkbox" onclick="updatefogview()" checked></p>
-        <p>Brush size <input type="range" min="2" max="200" value="100" oninput="fogbrushsize(this.value)"></p>
-        <p><button onclick="clearArea()">Reset</button></p>
+        <div class="card">
+            <p><input id="fog_enable" type="checkbox" value="" onclick="updatefogview()"> Enable</p>
+        </div>
+        <div class="card">
+            <p><input id="fog_dmview" type="checkbox" onclick="updatefogview()" checked> DM View</p>
+        </div>
+        <div class="card">
+            <p>Brush size</p>
+            <input type="range" min="2" max="200" value="100" oninput="fogbrushsize(this.value)" style="width:100%">
+        </div>
+        <div class="card">
+            <p><button onclick="clearArea()">Reset</button></p>
+        </div>
     </div>
     <div id="setting" class="column left panel">
         <h1>Settings</h1>
-        <p><input type="checkbox"> Clear All</p>
-        <p><input type="checkbox"> DM View</p>
+        <div class="card">
+            <p><input type="checkbox"> Clear All</p>
+        </div>
+        <div class="card">
+            <p><input type="checkbox"> DM View</p>
+        </div>
+        <div class="card">
+            <p><input type="checkbox"> Upload Maps</p>
+        </div>
+        <div class="card">
+            <p><input type="checkbox"> Upload Music</p>
+        </div>
     </div>
 
     <div class="column toolbar-right">
-        <div class="icon icon-right" onclick="panel_update(this, 'music', 'right');">
-            <a><i class="fas fa-play"></i></i></a>
+        <div class="icon icon-right" onclick="panel_update(this, 'nowplaying', 'right');">
+            <a><i class="fas fa-play"></i></a>
         </div>
-        <div class="icon icon-right" onclick="panel_update(this, 'fx', 'right');">
-            <a><i class="fas fa-list-ul"></i></a>
+        <div class="icon icon-right" onclick="panel_update(this, 'music', 'right');">
+            <a><i class="fa fa-folder"></i></a>
         </div>
         <div class="icon icon-right" onclick="panel_update(this, 'mute', 'right');">
             <a><i class="fas fa-volume-mute"></i></i></a>
         </div>
     </div>
+    <div id="nowplaying" class="column right panel">
+        <h1>Now Playing</h1>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <div id="music" class="column right panel">
         <h1>Music</h1>
-    </div>
-    <div id="fx" class="column right panel">
-        <h1>Sound Effects</h1>
+        <div class="card" onclick="up()"><i class="fas fa-level-up-alt"></i> Up level</div>
+        <div id="musiclist">
+        </div>
     </div>
     <div id="mute" class="column right panel">
         <h1>Mute</h1>
@@ -97,4 +298,6 @@
 <script src="js/main.js"></script>
 <script src="js/fog.js"></script>
 <script src="js/light.js"></script>
+<script src="js/music.js"></script>
+
 </html>
