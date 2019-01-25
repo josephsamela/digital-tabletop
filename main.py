@@ -4,106 +4,100 @@ from os import walk
 import json
 import socket
 import webbrowser
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'pathfinder'
 socketio = SocketIO(app)
 
-MAP = "static/maps/default.jpg"
-
 @app.route("/")
 def index():
-    maps = generate_maps("static/maps/")
-    effects = generate_effects("static/audio/effect/")
-    themes = generate_themes("static/audio/theme/")
-    return render_template('index.html', themes=themes, maps=maps, effects=effects)
+    return render_template('index.html')
 
 @app.route("/board")
-def board():
-    global MAP
-    return render_template('board.html', maps=MAP)
+def gameboard():
+    return render_template('board.html')
 
-@socketio.on('message')
-def handle_message(message):
-    print('   MESSAGE: ' + message)
-    if message == "New connection!":
-        emit('update map', MAP, broadcast=True)
+@socketio.on('first-connect')
+def firstConnect(message):
+    print(message)
+    global BOARD, LIGHT, FOG, EFFECT, MAPS
+    emit('maps', MAPS, broadcast=True)
+    emit('board', BOARD, broadcast=True)
+    emit('light', LIGHT, broadcast=True)
+    emit('fog', FOG, broadcast=True)
+    emit('effect', EFFECT, broadcast=True)
 
-@socketio.on('update map')
-def handle_message(message):
-    print('UPDATE MAP: ' + message)
-    global MAP
-    MAP = message
-    emit('update map', message, broadcast=True)
+@socketio.on('maps')
+def mapList(message):
+    print('MAPS: ' + message)
+    global MAPS
+    emit('effect', MAPS, broadcast=True)
 
-def generate_maps(theme_path):
-    text = ''
-    path_list = get_file_list(theme_path)
-    for f in path_list:
-        path = theme_path+f
-        if "default.jpg" in f:
-            continue
-        if "-" in f:
-            title, subtitle = f.split("-")
-        else:
-            title = f
-        template = "<div id='"+path+"' name='map-thumbnail' onclick='update_map(this)' class='uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-grid'><div class='uk-flex-last@s uk-card-media-right uk-cover-container'><img src='"+path+"' uk-cover><canvas width='400' height='100'></canvas></div><div><div class='uk-card-body'><div class='uk-card-badge uk-label'>Map</div><h1 class='uk-card-title'>"+title+"</h1><p>"+subtitle[0:-3]+"</p></div></div></div>"
-        text = text+template+'\n\n'
-    return text
+@socketio.on('board')
+def board(message):
+    print('BOARD')
+    global BOARD
+    BOARD = message
+    emit('board', BOARD, broadcast=True)
 
-def generate_themes(theme_path):
-    text = ''
-    path_list = get_file_list(theme_path)
-    map_num = 1
-    for f in path_list:
-        print(f)
-        path = theme_path+f
-        title, subtitle = f.split("-")
-        template = "<div id='player"+str(map_num)+"' class='uk-card uk-card-default uk-width-1-1@m uk-margin'><div class='uk-card-badge uk-label'>"+subtitle[0:-4]+"</div><div class='uk-card-body'><h1 class='uk-card-title'>"+title+"</h1><audio id='player_control"+str(map_num)+"' controls preload='auto' controlsList='nodownload' style='width:100%'><source id='theme' src='"+path+"'></audio></div></div>"
-        text = text+template+'\n\n'
-        map_num += 1
-    return text
+@socketio.on('light')
+def light(message):
+    print(message)
+    global LIGHT
+    LIGHT = message
+    emit('light', LIGHT, broadcast=True)
 
-def generate_effects(theme_path):
-    text = '' 
-    path_list = get_file_list(theme_path)
-    map_num = 10000
-    for f in path_list:
-        print(f)
-        path = theme_path+f
-        title, subtitle = f.split("-")
-        template = "<div id='player"+str(map_num)+"' class='uk-card uk-card-default uk-width-1-1@m uk-margin'><div class='uk-card-badge uk-label'>"+subtitle[0:-4]+"</div><div class='uk-card-body'><h1 class='uk-card-title'>"+title+"</h1><audio id='player_control"+str(map_num)+"' controls loop preload='auto' controlsList='nodownload' style='width:100%;'><source id='theme' src='"+path+"'></audio></div></div>"
-        text = text+template+'\n\n'
-        map_num += 1
-    return text
+@socketio.on('fog')
+def fog(message):
+    print('FOG: ' + message)
+    global FOG
+    emit('fog', FOG, broadcast=True)
 
-def get_file_list(path):
-    f = []
-    for (dirpath, dirnames, filenames) in walk(path):
-        f.extend(filenames)
-    return f
+@socketio.on('effect')
+def effect(message):
+    print(message)
+    global EFFECT
+    EFFECT = message
+    emit('effect', EFFECT, broadcast=True)
 
 if __name__ == '__main__':
+    # Read avaliable maps 
+    maps = []
+    for filename in os.listdir( os.getcwd()+'/static/maps/' ):
+        if 'default.jpg' in filename:
+            continue
+        title, maptype, description = filename.split(' - ')
+        path = '/static/maps/'+filename
+        m = {
+            'title':title,
+            'type':maptype,
+            'description':description,
+            'path': path
+        }
+        maps.append(m)
+    # Write maps information to maps.json
+    with open('maps.json', 'w') as outfile:
+        json.dump(maps, outfile)
+
+    # Import effect config
+    global BOARD, LIGHT, FOG, EFFECT, MAPS
+    with open('board.json', 'r') as f:
+        BOARD = json.load(f)
+    with open('light.json', 'r') as f:
+        LIGHT = json.load(f)
+    with open('fog.json', 'r') as f:
+        FOG = json.load(f)
+    with open('effect.json', 'r') as f:
+        EFFECT = json.load(f)
+    with open('maps.json', 'r') as f:
+        MAPS = json.load(f)
+
+    # Import server config
     with open('config.json', 'r') as f:
         config = json.load(f)
-
     port = config['port']
     address = config['address']
-
-    if port == 80:
-        if address == "0.0.0.0":
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("8.8.8.8", 80))
-            address = s.getsockname()[0]
-            s.close()
-            print("Running on http://"+address)
-        else:
-            print("Running on http://"+address)
-    else:
-        print("Running on http://"+address+":"+port)
-
-    url = "http://"+address+":"+str(port)
-    # webbrowser.open(url, new=1, autoraise=True)
-    # webbrowser.open(url+"/board", new=2, autoraise=True)
+    print("Running on http://"+address+":"+str(port))
 
     socketio.run(app, host=address, port=port)

@@ -1,0 +1,10 @@
+{
+    "global mute": true,
+    "dm view": true,
+    "map": {
+        "title": "default",
+        "description": "default map",
+        "type": "default",
+        "path": "/static/maps/default.jpg"
+    }
+}

@@ -1,0 +1,56 @@
+@media only screen and (min-width: 1000px) {
+    #board-preview {
+        padding: 0px;
+    }
+    #board-settings {
+        padding: 0px;
+    }
+}
+
+body {
+    padding-left:0.5em;
+    padding-right:0.5em
+}
+
+.col {
+    margin: 0.5em;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    height: 100vh;
+    overflow-y: scroll;
+}
+.slider {
+    width: 100%;
+}
+.flex-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.wrapper canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

@@ -1,0 +1,22 @@
+{
+    "mute": false,
+    "darkness": {
+        "opacity": 0,
+        "color": "black"
+    },
+    "aurora": {
+        "mute": true
+    },
+    "fireworks": {
+        "mute": true
+    },
+    "rain": {
+        "mute": true
+    },
+    "snow": {
+        "mute": true
+    },
+    "thunderstorm": {
+        "mute": true
+    }
+}

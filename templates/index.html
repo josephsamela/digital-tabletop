@@ -1,157 +1,197 @@
 <!DOCTYPE html>
+<html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS Libraries -->
-    <link rel="stylesheet" href="static/css/uikit.min.css" />
-    <link rel="stylesheet" href="static/css/bulma.min.css" />
-    <!-- Javascript Libraries -->
-    <script src="static/js/uikit.min.js"></script>
-    <script src="static/js/uikit-icons.min.js"></script>
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/socket.io.dev.js"></script>
-    <!-- Page Decorations -->
-    <title>Table Top</title>
-    <link rel="shortcut icon" type="image/png" href="/static/images/favicon.png" />
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.png">
-    <link rel="apple-touch-icon" type="image/png" href="/static/images/favicon.png">
-    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <title>Dashboard</title>
+    <!-- import uikit -->
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/uikit.min.css" />
+    <script src="static/js/library.uikit.min.js"></script>
+    <!-- import bulma -->
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/bulma.min.css" />
+    <!-- import icons -->
+    <script src="static/js/library.fontawesome.5.1.0.js"></script>
+    <!-- import fuse fuzzy finder -->
+    <script src="static/js/library.fuse.3.0.4.js"></script>
+    <!-- import jquery -->
+    <script src="static/js/library.jquery-3.3.1.min.js"></script>
+    <!-- socket io -->
+    <script src="static/js/library.socket.io.dev.js"></script>
+    <!-- custom style sheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/style.css" />
 </head>
 
-<style>
-    body {
-        padding: 0px;
-    }
-
-    .column {
-        height: 100vh;
-        overflow-y: scroll;
-        padding-bottom: 0px;
-    }
-
-    .columns {
-        margin: 0px;
-    }
-
-    audio {
-        margin-top: 4em;
-        /* display:block; */
-    }
-
-    /* .uk-card-title {
-        margin-bottom: 2em;
-    } */
-
-    /* scrollbar */
-    ::-webkit-scrollbar {
-        width: 2px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #888;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-</style>
-
 <body>
-
-    <div class="columns" style="margin-bottom: 0px;">
-        <div class="column">
-            <h1 class="uk-heading-divider">Maps</h1>
-            <div id="static/maps/default.jpg" name="map-thumbnail" onclick="update_map(this)" class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin"
-                uk-grid>
-                <div class="uk-flex-last@s uk-card-media-right uk-cover-container">
-                    <img src="static/maps/default.jpg" alt="" uk-cover>
-                    <canvas width="400" height="100"></canvas>
+    <div cols uk-grid>
+        <div id="map-selection" class="col uk-width-expand">
+            <nav class="panel">
+                <p class="panel-heading">
+                    Maps
+                </p>
+                <div class="panel-block">
+                    <p class="control has-icons-left">
+                        <input id="map-search" class="input is-small" type="text" placeholder="search" onkeyup="map_search_entry();">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </span>
+                    </p>
                 </div>
-                <div>
-                    <div class="uk-card-body">
-                        <div class="uk-card-badge uk-label">Map</div>
-                        <h1 class="uk-card-title">Default</h1>
-                        <p>Hide the gameboard!</p>
-                    </div>
+                <p class="panel-tabs">
+                    <a id="map-filter-all" onclick="filter_map_type(this.id);" class="is-active">all</a>
+                    <a id="map-filter-world" onclick="filter_map_type(this.id);">world</a>
+                    <a id="map-filter-town" onclick="filter_map_type(this.id);">town</a>
+                    <a id="map-filter-dungeon" onclick="filter_map_type(this.id);">dungeon</a>
+                </p>
+                <div id="map-panel-list">
+                    <!-- populated by map list elements -->
                 </div>
-            </div>
-            {{ maps|safe }}
+            </nav>
         </div>
-        <div class="column is-hidden-mobile">
-            <img id="map" src="static/maps/default.jpg">
-        </div>
-        <div class="column is-hidden-mobile">
-            <h1 class="uk-heading-divider">Themes🔂</h1>
 
-            <!-- <div id="player1" class='uk-card uk-card-default uk-width-1-1@m uk-margin'>
-                <div class='uk-card-badge uk-label'>Theme</div>
-                <div class='uk-card-body'>
-                    <h1 class='uk-card-title'>Default</h1>
-                    <audio controls loop preload='auto' controlsList='nodownload' style='width:100%; margin-bottom: 1em;'>
-                        <source id='theme' src='\static\audio\theme\Rising from the Ashes - Theme.wav'>
-                    </audio>
+        <div id="board-preview" class="col uk-width-expand">
+            <nav class="panel">
+                <p class="panel-heading">
+                    <span id="global-mute" class="button is-dark" onclick="global_mute();">
+                        <i class="fas fa-video-slash" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    <span class="button" onclick="global_erase();">
+                        <i class="fas fa-eraser" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    <span class="button" onclick="toggle_map_view();">
+                        <i class="fas fa-low-vision" aria-hidden="true"></i>
+                    </span>
+                </p>
+
+                <div class="wrapper">
+                    <img id="map-preview" src="/static/maps/default.jpg">
+
+                    <canvas id="canvas_darkness" width="2160" height="3840"></canvas>
+
+                    <canvas id="canvas_effect_rain" width="2160" height="3840"></canvas>
+                    <canvas id="canvas_effect_snow" width="2160" height="3840"></canvas>
+
+                    <canvas id="canvas_effect_thunderstorm1" width="2160" height="3840"></canvas>
+                    <canvas id="canvas_effect_thunderstorm2" width="2160" height="3840"></canvas>
+                    <canvas id="canvas_effect_thunderstorm3" width="2160" height="3840"></canvas>
+
+                    <!-- <canvas id="canvas_light" width="2160" height="3840"></canvas> -->
+                    <!-- <canvas id="canvas_fog" width="2160" height="3840"></canvas> -->
                 </div>
-            </div> -->
 
-            {{ themes|safe }}
+            </nav>
         </div>
-        <div class="column is-hidden-mobile">
-            <h1 class="uk-heading-divider">Effects🔁</h1>
-            {{ effects|safe }}
+
+        <div id="board-settings" class="col uk-width-expand">
+            <nav id="setting-panel-light" class="panel">
+                <p class="panel-heading">
+                    Settings
+                </p>
+                <p class="panel-tabs">
+                    <a id="setting-tab-toggle-light" class="is-active" onclick="settingtabtoggle(this.id);">light</a>
+                    <a id="setting-tab-toggle-fog" onclick="settingtabtoggle(this.id);">fog</a>
+                    <a id="setting-tab-toggle-effect" onclick="settingtabtoggle(this.id);">effects</a>
+                </p>
+                <a class="panel-block">
+                    <span class="button" onclick="setting_global_mute_light();">
+                        <i class="fas fa-video-slash" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    <span class="button" onclick="setting_add_light();">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <div id="light-panel-list">
+                    <!-- populated by light list elements -->
+                </div>
+            </nav>
+            <nav id="setting-panel-fog" class="panel" style="display: none;">
+                <p class="panel-heading">
+                    Settings
+                </p>
+                <p class="panel-tabs">
+                    <a id="setting-tab-toggle-light" onclick="settingtabtoggle(this.id);">light</a>
+                    <a id="setting-tab-toggle-fog" class="is-active" onclick="settingtabtoggle(this.id);">fog</a>
+                    <a id="setting-tab-toggle-effect" onclick="settingtabtoggle(this.id);">effects</a>
+                </p>
+                <a class="panel-block">
+                    <span class="button" onclick="setting_global_mute_fog();">
+                        <i class="fas fa-video-slash" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    <span class="button is-dark" onclick="setting_erase_fog();">
+                        <i class="fas fa-eraser" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    <span class="button" onclick="setting_pencil_fog();">
+                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </nav>
+            <nav id="setting-panel-effect" class="panel" style="display: none;">
+                <p class="panel-heading">
+                    Settings
+                </p>
+                <p class="panel-tabs">
+                    <a id="setting-tab-toggle-light" onclick="settingtabtoggle(this.id);">light</a>
+                    <a id="setting-tab-toggle-fog" onclick="settingtabtoggle(this.id);">fog</a>
+                    <a id="setting-tab-toggle-effect" class="is-active" onclick="settingtabtoggle(this.id);">effects</a>
+                </p>
+                <a class="panel-block">
+                    <span class="button" onclick="setting_global_mute_effect();">
+                        <i class="fas fa-eraser" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <a class="panel-block">
+                    Darkness
+                    <span class="panel-icon"></span>
+                    <i class="fas fa-sun" aria-hidden="true"></i>
+                    <span class="panel-icon"></span>
+                    <input id="darkness" class="slider is-fullwidth is-small is-circle" step="0.01" min="0" max="1" value="0" type="range" oninput="darknessSlider();">
+                    <span class="panel-icon"></span>
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                </a>
+                <a class="panel-block">
+                    <span id="effect-mute-rain" class="button is-dark" onclick="mute_effect('rain');">
+                        <i class="far fa-lightbulb" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    Rain
+                </a>
+                <a class="panel-block">
+                    <span id="effect-mute-snow" class="button is-dark" onclick="mute_effect('snow');">
+                        <i class="far fa-lightbulb" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    Snow
+                </a>
+                <a class="panel-block">
+                    <span id="effect-mute-thunderstorm" class="button is-dark" onclick="mute_effect('thunderstorm');">
+                        <i class="far fa-lightbulb" aria-hidden="true"></i>
+                    </span>
+                    <span class="panel-icon"></span>
+                    Thunderstorm
+                </a>
+            </nav>
         </div>
     </div>
 
-
-
 </body>
 
-<script>
 
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+<script src="static/js/dashboard.board.js"></script>
+<script src="static/js/dashboard.maps.js"></script>
+<script src="static/js/dashboard.effect.js"></script>
+<script src="static/js/dashboard.fog.js"></script>
+<script src="static/js/dashboard.light.js"></script>
 
-    socket.on('connect', function () {
-        socket.emit('message', "New connection!");
-    });
+<!-- <script src="static/js/effect.light.js"></script> -->
+<!-- <script src="static/js/effect.fog.js"></script> -->
 
-    socket.on('update map', function (path) {
-        console.log(path)
-        highlight_map(path)
-        document.getElementById("map").src = path;
-    });
+<script src="static/js/effect.rain.js"></script>
+<script src="static/js/effect.snow.js"></script>
+<script src="static/js/effect.thunderstorm.js"></script>
 
-    function highlight_map(id) {
-        // Re-color selected map blue
-        var map_buttons = document.getElementsByName("map-thumbnail");
-        for (i = 0; i < map_buttons.length; i++) {
-            document.getElementsByName("map-thumbnail")[i].classList.remove("uk-card-primary")
-        }
-        document.getElementById(id).classList.add("uk-card-primary");
-    }
+<script src="static/js/dashboard.main.js"></script>
 
-    function update_map(element) {
-        highlight_map(element.id);
-        socket.emit('update map', element.id);
-    }
-
-    var player = document.getElementsByTagName("audio");
-    console.log(player)
-    for (var i = 0; i < player.length; i++) {
-        document.getElementById(player[i].id).addEventListener('play', function (event) {
-            player_play(event.path[2].id);
-        });
-        document.getElementById(player[i].id).addEventListener('pause', function (event) {
-            player_pause(event.path[2].id);
-        });
-        function player_play(id) {
-            document.getElementById(id).classList.add("uk-card-primary");
-        }
-        function player_pause(id) {
-            document.getElementById(id).classList.remove("uk-card-primary");
-        }
-    }
-
-</script>
+</html>

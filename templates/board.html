@@ -1,13 +1,10 @@
-<!DOCTYPE <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Press F11 Fullscreen</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/socket.io.dev.js"></script>
+    <script src="static/js/library.jquery-3.3.1.min.js"></script>
+    <script src="static/js/library.socket.io.dev.js"></script>
 </head>
 
 <style>
@@ -23,23 +20,56 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .wrapper {
+        position: relative;
+        width: 100vw;
+        height: 100%;
+    }
+
+    .wrapper canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #canvas_light {
+        mix-blend-mode: multiply
+    }
+
 </style>
 
 <body>
-    <img id="map" src="static/maps/default.jpg">
+
+    <div class="wrapper">
+        <img id="map-preview" src="static/maps/default.jpg">
+        
+        <canvas id="canvas_darkness" width="2160" height="3840"></canvas>
+        
+        <canvas id="canvas_light" width="2160" height="3840"></canvas>
+        <!-- <canvas id="canvas_fog" width="2160" height="3840"></canvas> -->
+
+        <canvas id="canvas_effect_rain" width="2160" height="3840"></canvas>
+        <canvas id="canvas_effect_snow" width="2160" height="3840"></canvas>
+
+        <canvas id="canvas_effect_thunderstorm1" width="2160" height="3840"></canvas>
+        <canvas id="canvas_effect_thunderstorm2" width="2160" height="3840"></canvas>
+        <canvas id="canvas_effect_thunderstorm3" width="2160" height="3840"></canvas>
+    </div>
+
 </body>
 
-<script>
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+<script src="static/js/gameboard.board.js"></script>
+<script src="static/js/gameboard.maps.js"></script>
+<script src="static/js/gameboard.effect.js"></script>
+<script src="static/js/gameboard.fog.js"></script>
+<script src="static/js/gameboard.light.js"></script>
 
-    socket.on('connect', function () {
-        socket.emit('message', "New connection!");
-    });
+<script src="static/js/effect.rain.js"></script>
+<script src="static/js/effect.snow.js"></script>
+<script src="static/js/effect.thunderstorm.js"></script>
+<!-- <script src="static/js/effect.light.js"></script> -->
 
-    socket.on('update map', function (path) {
-        console.log(path)
-        document.getElementById("map").src = path;
-    });
-</script>
+<script src="static/js/gameboard.main.js"></script>
 
 </html>
