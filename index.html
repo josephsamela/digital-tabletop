@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <!-- import icons -->
+    <script src="js/library.fontawesome.5.1.0.js"></script>
+    <!-- import fuse fuzzy finder -->
+    <script src="js/library.fuse.3.0.4.js"></script>
+    <!-- import jquery -->
+    <script src="js/library.jquery-3.3.1.min.js"></script>
+    <!-- custom style sheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+</head>
+
+<body>
+    <div class="column toolbar-left">
+        <div class="icon icon-left" onclick="panel_update(this, 'map', 'left');">
+            <a><i class="fas fa-map-marker-alt"></i></a>
+        </div>
+        <div class="icon icon-left" onclick="panel_update(this, 'video', 'left');">
+            <a><i class="fas fa-video"></i></a>
+        </div>
+        <div class="icon icon-left" onclick="panel_update(this, 'effect', 'left');">
+            <a><i class="fas fa-bolt"></i></a>
+        </div>
+        <div class="icon icon-left" onclick="panel_update(this, 'light', 'left');">
+            <a><i class="fas fa-lightbulb"></i></a>
+        </div>
+        <div class="icon icon-left" onclick="panel_update(this, 'fog', 'left');">
+            <a><i class="fas fa-cloud"></i></a>
+        </div>
+        <div class="icon icon-left" onclick="panel_update(this, 'grid', 'left');">
+            <a><i class="fas fa-border-all"></i></a>
+        </div>
+        <div class="icon icon-left" onclick="panel_update(this, 'setting', 'left');">
+            <a><i class="fas fa-cog"></i></a>
+        </div>
+    </div>
+    <div id="map" class="column left panel">
+        <h1>Maps</h1>
+        <li onclick="mapsMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
+        <div id="map-panel-list">
+            <!-- populated by map list elements -->
+        </div>
+    </div>
+    <div id="video" class="column left panel">
+        <h1>Video</h1>
+        <li onclick="videoMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
+        <div id="video-panel-list">
+            <!-- populated by video list elements -->
+        </div>
+    </div>
+    <div id="effect" class="column left panel">
+        <h1>Effect</h1>
+        <p class="menu-label">
+            Brightness
+        </p>
+        <ul>
+            <li><input type="range" step="0.01" min="0" max="1" value="0" oninput="effectBrightness(this);" style="width:100%"></li>
+        </ul>
+        <p class="menu-label">
+            Weather
+        </p>
+        <ul class="menu-list">
+            <li onclick="effectWeatherRain(this)"><div class="menu-item"><input type="checkbox"> Rain</div></li>
+            <li onclick="effectWeatherThunderstorm(this)"><div class="menu-item"><input type="checkbox"> Thunderstorm</div></li>
+            <li onclick="effectWeatherSnow(this)"><div class="menu-item"><input type="checkbox"> Snow</div></li>
+        </ul>
+    </div>
+    <div id="light" class="column left panel">
+            <h1>Light</h1>
+            <li onclick="lightMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
+            <p class="menu-label">
+                Light Settings
+            </p>
+            <ul>
+                <li onclick="lightSettingCreate(this)"><div class="menu-item">Create Light</div></li>
+                <li onclick="lightSettingReset(this)"><div class="menu-item">Reset</div></li>
+            </ul>
+        </div>
+    <div id="fog" class="column left panel">
+        <h1>Fog</h1>
+        <li onclick="fogEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
+        <p class="menu-label">
+            General
+        </p>
+        <ul>
+            <li onclick="fogGeneralDMView(this)"><div class="menu-item"><input type="checkbox"> DM View</div></li>
+            <li onclick="fogGeneralReset(this)"><div class="menu-item"> Reset</div></li>
+        </ul>
+    </div>
+    <div id="grid" class="column left panel">
+        <h1>Grid</h1>
+        <p class="menu-label">
+            Square
+        </p>
+        <ul class="menu-list">
+            <li onclick="gridSquareEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
+            <li>Scale<input type="range" step="1" min="1" max="100" value="25" onchange="gridSquareScale(this);" style="width:100%"></li>
+        </ul>
+        <p class="menu-label">
+            Hex
+        </p>
+        <ul class="menu-list">
+            <li onclick="gridHexEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
+            <li>Scale<input type="range" step="1" min="10" max="300" value="100" onchange="gridHexScale(this);" style="width:100%"></li>
+        </ul>
+    </div>
+    <div id="setting" class="column left panel">
+        <h1>Settings</h1>
+        <p class="menu-label">
+            General
+        </p>
+        <ul>
+            <li onclick="settingsClearAll(this)"><div class="menu-item">Clear All</div></li>
+        </ul>
+        <p class="menu-label">
+            Visual
+        </p>
+        <ul class="menu-list">
+            <li onclick="settingsVisualDarkTheme(this)"><div class="menu-item"><input type="checkbox"> Dark Theme</div></li>
+        </ul>
+    </div>
+
+    <div class="column toolbar-right">
+        <div class="icon icon-right" onclick="panel_update(this, 'nowplaying', 'right');">
+            <a><i class="fas fa-play"></i></a>
+        </div>
+        <div class="icon icon-right" onclick="panel_update(this, 'music', 'right');">
+            <a><i class="fa fa-folder"></i></a>
+        </div>
+        <div class="icon icon-right" onclick="panel_update(this, 'mute', 'right');">
+            <a><i class="fas fa-music"></i></i></a>
+        </div>
+    </div>
+    <div id="nowplaying" class="column right panel">
+        <h1>Now Playing</h1>
+
+        <div class="card">
+            <p>Call of Kuthulu</p>
+            <audio controls src="#"></audio>
+
+            <div class="audiocontrols">
+                <div class="audiocontrol">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div class="audiocontrol">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="music" class="column right panel">
+        <h1>Music</h1>
+        <div class="card" onclick="up()"><i class="fas fa-level-up-alt"></i> Up level</div>
+        <div id="musiclist">
+        </div>
+    </div>
+    <div id="mute" class="column right panel">
+        <h1>Mute</h1>
+    </div>
+
+    <div class="column middle">
+        <div class="wrapper">
+            <img id="map-preview" class="content" src="media/maps/default.jpg">
+            <canvas id="canvas_grid_square" class="content" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_grid_hex" class="content" width="2160" height="3840" style="display: none; opacity: 0.25"></canvas>
+            <canvas id="canvas_darkness" class="content" width="2160" height="3840"></canvas>
+
+            <canvas id="canvas_effect_rain" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_effect_snow" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+
+            <canvas id="canvas_effect_thunderstorm1" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_effect_thunderstorm2" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_effect_thunderstorm3" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+
+            <!-- <canvas id="canvas_light" class="content" width="2160" height="3840"></canvas> -->
+            <canvas id="canvas_fog" class="content" width="2160" height="3840" style="display: none"></canvas>
+        </div>
+    </div>
+</body>
+
+<!-- game board -->
+<script src="js/dashboard.board.js"></script>
+
+<!-- effects -->
+
+<script src="js/effect.rain.js"></script>
+<script src="js/effect.snow.js"></script>
+<script src="js/effect.thunderstorm.js"></script>
+<script src="js/grid.square.js"></script>
+<script src="js/grid.hex.js"></script>
+<script src="js/effect.fog.js"></script>
+<!-- <script src="js/effect.light.js"></script> -->
+
+
+<!-- right tabs -->
+<script src="js/dashboard.maps.js"></script>
+<script src="js/dashboard.video.js"></script>
+<script src="js/dashboard.effect.js"></script>
+<script src="js/dashboard.light.js"></script>
+<script src="js/dashboard.fog.js"></script>
+<script src="js/dashboard.grid.js"></script>
+<script src="js/dashboard.settings.js"></script>
+
+<!-- left tabs -->
+<!-- <script src="js/dashboard.audio.js"></script> -->
+
+<script src="js/dashboard.main.js"></script>
+
+</html>
