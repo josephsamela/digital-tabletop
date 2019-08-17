@@ -68,8 +68,6 @@ $("#map-preview").on("load", function() {
 
 function dashboardCanvasResize() {
     adjustsize('#canvas_darkness')
-    adjustsize('#canvas_grid_square')
-    adjustsize('#canvas_grid_hex')
     adjustsize('#canvas_effect_snow')
     adjustsize('#canvas_effect_rain')
 
