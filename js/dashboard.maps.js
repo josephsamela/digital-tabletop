@@ -1,13 +1,30 @@
 var maps = {
-    mute: false
+    mute: false,
+    current: 'media/maps/default.jpg'
 }
 
 function mapsMute(t) {
     maps.mute = !maps.mute
     updateToggleState(t, maps.mute)
     console.log('mapsMute is ' + maps.mute)
+
+    if (maps.mute == true) {
+        $('#map-preview')[0].src = 'media/maps/default.jpg';
+    } else {
+        $('#map-preview')[0].src = maps.current;
+    }
 }
 
+$("#map-preview").on("load", function() {
+    dashboardCanvasResize()
+});
+
+function mapChange(path) {
+    maps.current = path
+    if (maps.mute == false) {
+        $("#map-preview").attr('src',maps.current)
+    }
+}
 
 // // Build map panel from list of maps
 // function build_map_panel(maps) {

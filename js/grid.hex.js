@@ -9,9 +9,9 @@ function drawHexGrid (id, s){
         hexRectangleHeight,
         hexRectangleWidth,
         hexagonAngle = 0.523598776, // 30 degrees in radians
-        sideLength = s,
-        boardWidth = 200,
-        boardHeight = 500;
+        sideLength = s*10,
+        boardWidth = document.getElementById("map-preview").width;
+        boardHeight = document.getElementById("map-preview").height;
 
     hexHeight = Math.sin(hexagonAngle) * sideLength;
     hexRadius = Math.cos(hexagonAngle) * sideLength;
@@ -24,7 +24,7 @@ function drawHexGrid (id, s){
         ctx.fillStyle = "#000000";
         ctx.strokeStyle = "#CCCCCC";
         ctx.lineWidth = 8;
-        ctx.strokeStyle = 'gray';
+        ctx.strokeStyle = 'white';
 
         drawBoard(ctx, boardWidth, boardHeight);
 
@@ -67,4 +67,4 @@ function drawHexGrid (id, s){
 
 }
 
-drawHexGrid('canvas_grid_hex', 100)
+drawHexGrid('canvas_grid_hex', 10)

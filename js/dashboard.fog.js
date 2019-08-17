@@ -23,7 +23,7 @@ function fogGeneralDMView(t) {
     console.log('fogGeneralDMView is '+fog.general.dmview)
 
     if (fog.general.dmview == true){
-        $('#canvas_fog').css('mix-blend-mode', 'exclusion')
+        $('#canvas_fog').css('mix-blend-mode', 'difference')
         $('#canvas_fog').css('filter', 'invert(1)')
     } else {
         $('#canvas_fog').css('mix-blend-mode', '')

@@ -24,9 +24,6 @@
         <div class="icon icon-left" onclick="panel_update(this, 'effect', 'left');">
             <a><i class="fas fa-bolt"></i></a>
         </div>
-        <div class="icon icon-left" onclick="panel_update(this, 'light', 'left');">
-            <a><i class="fas fa-lightbulb"></i></a>
-        </div>
         <div class="icon icon-left" onclick="panel_update(this, 'fog', 'left');">
             <a><i class="fas fa-cloud"></i></a>
         </div>
@@ -42,6 +39,14 @@
         <li onclick="mapsMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
         <div id="map-panel-list">
             <!-- populated by map list elements -->
+            <p class="menu-label">
+                Maps
+            </p>
+            <ul class="menu-list">
+                <li onclick="mapChange('./media/maps/Abbey of Saint Markovia - dungeon - this.jpg')"><div class="menu-item"> Abbey of Saint Markovia</div></li>
+                <li onclick="mapChange('./media/maps/Howling Caves - dungeon - These caves belonged to deep gnomes who had started.jpg')"><div class="menu-item"> Howling Caves</div></li>
+                <li onclick="mapChange('./media/maps/Plunging Torrents - dungeon - Dangerous waterfalls, sudden deluges, and weird elemental effects fill the Plunging Torrents, a cavernous extension of the Elemental Plane of Water.jpg')"><div class="menu-item"> Plunging Torrents</div></li>
+            </ul>
         </div>
     </div>
     <div id="video" class="column left panel">
@@ -68,17 +73,6 @@
             <li onclick="effectWeatherSnow(this)"><div class="menu-item"><input type="checkbox"> Snow</div></li>
         </ul>
     </div>
-    <div id="light" class="column left panel">
-            <h1>Light</h1>
-            <li onclick="lightMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
-            <p class="menu-label">
-                Light Settings
-            </p>
-            <ul>
-                <li onclick="lightSettingCreate(this)"><div class="menu-item">Create Light</div></li>
-                <li onclick="lightSettingReset(this)"><div class="menu-item">Reset</div></li>
-            </ul>
-        </div>
     <div id="fog" class="column left panel">
         <h1>Fog</h1>
         <li onclick="fogEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
@@ -98,13 +92,15 @@
         <ul class="menu-list">
             <li onclick="gridSquareEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
             <li>Scale<input type="range" step="1" min="1" max="100" value="25" onchange="gridSquareScale(this);" style="width:100%"></li>
+            <li>Opacity<input type="range" step="0.01" min="0" max="1" value="0.6" onchange="gridSquareOpacity(this);" style="width:100%"></li>
         </ul>
         <p class="menu-label">
             Hex
         </p>
         <ul class="menu-list">
             <li onclick="gridHexEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
-            <li>Scale<input type="range" step="1" min="10" max="300" value="100" onchange="gridHexScale(this);" style="width:100%"></li>
+            <li>Scale<input type="range" step="1" min="1" max="40" value="10" onchange="gridHexScale(this);" style="width:100%"></li>
+            <li>Opacity<input type="range" step="0.01" min="0" max="1" value="0.6" onchange="gridHexOpacity(this);" style="width:100%"></li>
         </ul>
     </div>
     <div id="setting" class="column left panel">
@@ -114,12 +110,6 @@
         </p>
         <ul>
             <li onclick="settingsClearAll(this)"><div class="menu-item">Clear All</div></li>
-        </ul>
-        <p class="menu-label">
-            Visual
-        </p>
-        <ul class="menu-list">
-            <li onclick="settingsVisualDarkTheme(this)"><div class="menu-item"><input type="checkbox"> Dark Theme</div></li>
         </ul>
     </div>
 
@@ -172,7 +162,7 @@
         <div class="wrapper">
             <img id="map-preview" class="content" src="media/maps/default.jpg">
             <canvas id="canvas_grid_square" class="content" width="2160" height="3840" style="display: none"></canvas>
-            <canvas id="canvas_grid_hex" class="content" width="2160" height="3840" style="display: none; opacity: 0.25"></canvas>
+            <canvas id="canvas_grid_hex" class="content" width="2160" height="3840" style="display: none"></canvas>
             <canvas id="canvas_darkness" class="content" width="2160" height="3840"></canvas>
 
             <canvas id="canvas_effect_rain" class="content effect" width="2160" height="3840" style="display: none"></canvas>
@@ -182,7 +172,7 @@
             <canvas id="canvas_effect_thunderstorm2" class="content effect" width="2160" height="3840" style="display: none"></canvas>
             <canvas id="canvas_effect_thunderstorm3" class="content effect" width="2160" height="3840" style="display: none"></canvas>
 
-            <!-- <canvas id="canvas_light" class="content" width="2160" height="3840"></canvas> -->
+            
             <canvas id="canvas_fog" class="content" width="2160" height="3840" style="display: none"></canvas>
         </div>
     </div>
@@ -199,14 +189,12 @@
 <script src="js/grid.square.js"></script>
 <script src="js/grid.hex.js"></script>
 <script src="js/effect.fog.js"></script>
-<!-- <script src="js/effect.light.js"></script> -->
 
 
 <!-- right tabs -->
 <script src="js/dashboard.maps.js"></script>
 <script src="js/dashboard.video.js"></script>
 <script src="js/dashboard.effect.js"></script>
-<script src="js/dashboard.light.js"></script>
 <script src="js/dashboard.fog.js"></script>
 <script src="js/dashboard.grid.js"></script>
 <script src="js/dashboard.settings.js"></script>

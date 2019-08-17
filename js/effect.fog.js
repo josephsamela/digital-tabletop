@@ -8,11 +8,14 @@ function angleBetween(point1, point2) {
 
 var el = document.getElementById('canvas_fog');
 
-var h = document.getElementById("map-preview").height;
-var w = document.getElementById("map-preview").width;
+var h = document.getElementById("map-preview").height+3;
+var w = document.getElementById("map-preview").width+3;
 
 el.height = h;
 el.width = w;
+
+fog_canvas_orig_width = w;
+fog_canvas_orig_height = h;
 
 // el.height = innerHeight;
 // el.width = innerWidth;
@@ -29,13 +32,32 @@ var isDrawing, lastPoint;
 el.onmousedown = function (e) {
     isDrawing = true;
     var c = $('#canvas_fog').offset()['left']
-    lastPoint = { x: e.clientX-c, y: e.clientY };
+
+    var wid = $('#canvas_fog').width()
+    var hei = $('#canvas_fog').height()
+
+    w_corr = wid/fog_canvas_orig_width
+    h_corr = hei/fog_canvas_orig_height
+    
+    lastPoint = { x: (e.clientX-c)/w_corr, y: e.clientY/h_corr };
+
+    console.log(lastPoint)
 };
 
 el.onmousemove = function (e) {
     if (!isDrawing) return;
     var c = $('#canvas_fog').offset()['left']
-    var currentPoint = { x: e.clientX-c, y: e.clientY };
+    
+    var wid = $('#canvas_fog').width()
+    var hei = $('#canvas_fog').height()
+    
+    w_corr = wid/fog_canvas_orig_width
+    h_corr = hei/fog_canvas_orig_height
+    
+    var currentPoint = { x: (e.clientX-c)/w_corr, y: e.clientY/h_corr };
+
+    console.log(currentPoint)
+
     var dist = distanceBetween(lastPoint, currentPoint);
     var angle = angleBetween(lastPoint, currentPoint);
 

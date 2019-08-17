@@ -9,7 +9,7 @@ var effect = {
 
 function effectBrightness(t) {
     effect.brightness = t.value
-    console.log('effectBrightness is '+effect.brightness)
+    console.log('effectBrightness is ' + effect.brightness)
 
     $('#canvas_darkness').css('opacity', t.value);
     $('#canvas_darkness').css('background-color', 'black');
@@ -18,20 +18,20 @@ function effectBrightness(t) {
 function effectWeatherRain(t) {
     effect.weather.rain = !effect.weather.rain
     updateToggleState(t, effect.weather.rain)
-    console.log('effectWeatherRain is '+effect.weather.rain)
-    
+    console.log('effectWeatherRain is ' + effect.weather.rain)
+
     if (effect.weather.rain == true) {
         $('#canvas_effect_rain').show()
     } else {
         $('#canvas_effect_rain').hide()
     }
-    
+
 }
 
 function effectWeatherThunderstorm(t) {
     effect.weather.thunderstorm = !effect.weather.thunderstorm
     updateToggleState(t, effect.weather.thunderstorm)
-    console.log('effectWeatherThunderstorm is '+effect.weather.thunderstorm)
+    console.log('effectWeatherThunderstorm is ' + effect.weather.thunderstorm)
 
     if (effect.weather.thunderstorm == true) {
         $('#canvas_effect_thunderstorm1').show()
@@ -48,14 +48,13 @@ function effectWeatherThunderstorm(t) {
 function effectWeatherSnow(t) {
     effect.weather.snow = !effect.weather.snow
     updateToggleState(t, effect.weather.snow)
-    console.log('effectWeatherSnow is '+effect.weather.snow)
-    
+    console.log('effectWeatherSnow is ' + effect.weather.snow)
+
     if (effect.weather.snow == true) {
         $('#canvas_effect_snow').show()
     } else {
         $('#canvas_effect_snow').hide()
-    }
-    
+    }  
 }
 
 // // Constrol setting mute, revealing plain gameboard

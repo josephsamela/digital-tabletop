@@ -144,7 +144,14 @@ li {
     /* mix-blend-mode: difference */
     mix-blend-mode: multiply;
 }
-
+#canvas_grid_square {
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+}
+#canvas_grid_hex {
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+}
 /* .card {
     padding:5px;
     margin: 8px;

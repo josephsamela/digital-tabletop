@@ -71,3 +71,7 @@ venv-digital-tabletop
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+
+media/*
+
