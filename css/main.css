@@ -99,7 +99,7 @@ p {
 }
 .menu-item {
     width: 100%;
-    padding: 0.3em 0px 0.3em 0.3em;
+    /* padding: 0.3em 0px 0.3em 0.3em; */
     border-radius: 2px;
 }
 .menu-item:hover {
@@ -169,18 +169,7 @@ li {
 
 audio {
     width: 100%;
-}
-
-.audiocontrols{
-    display: flex;
-}
-.audiocontrol {
-    width: 100%;
-    margin: auto;
-    text-align: center;
-    border-radius: 5px;
-}
-.audiocontrol:hover {
-    color: #F0F2F3;
-    background: #0F0D0C;
+    background: #f1f3f4;
+    filter: invert(1);
+    mix-blend-mode: screen
 }

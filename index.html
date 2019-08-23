@@ -18,9 +18,6 @@
         <div class="icon icon-left" onclick="panel_update(this, 'map', 'left');">
             <a><i class="fas fa-map-marker-alt"></i></a>
         </div>
-        <div class="icon icon-left" onclick="panel_update(this, 'video', 'left');">
-            <a><i class="fas fa-video"></i></a>
-        </div>
         <div class="icon icon-left" onclick="panel_update(this, 'effect', 'left');">
             <a><i class="fas fa-bolt"></i></a>
         </div>
@@ -47,13 +44,6 @@
                 <li onclick="mapChange('./media/maps/Howling Caves - dungeon - These caves belonged to deep gnomes who had started.jpg')"><div class="menu-item"> Howling Caves</div></li>
                 <li onclick="mapChange('./media/maps/Plunging Torrents - dungeon - Dangerous waterfalls, sudden deluges, and weird elemental effects fill the Plunging Torrents, a cavernous extension of the Elemental Plane of Water.jpg')"><div class="menu-item"> Plunging Torrents</div></li>
             </ul>
-        </div>
-    </div>
-    <div id="video" class="column left panel">
-        <h1>Video</h1>
-        <li onclick="videoMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
-        <div id="video-panel-list">
-            <!-- populated by video list elements -->
         </div>
     </div>
     <div id="effect" class="column left panel">
@@ -114,48 +104,61 @@
     </div>
 
     <div class="column toolbar-right">
-        <div class="icon icon-right" onclick="panel_update(this, 'nowplaying', 'right');">
-            <a><i class="fas fa-play"></i></a>
-        </div>
         <div class="icon icon-right" onclick="panel_update(this, 'music', 'right');">
-            <a><i class="fa fa-folder"></i></a>
+            <a><i class="fas fa-music"></i></a>
         </div>
-        <div class="icon icon-right" onclick="panel_update(this, 'mute', 'right');">
-            <a><i class="fas fa-music"></i></i></a>
+        <div class="icon icon-right" onclick="panel_update(this, 'soundeffects', 'right');">
+            <a><i class="fas fa-bolt"></i></a>
         </div>
-    </div>
-    <div id="nowplaying" class="column right panel">
-        <h1>Now Playing</h1>
-
-        <div class="card">
-            <p>Call of Kuthulu</p>
-            <audio controls src="#"></audio>
-
-            <div class="audiocontrols">
-                <div class="audiocontrol">
-                    <i class="fas fa-step-backward"></i>
-                </div>
-                <div class="audiocontrol">
-                    <i class="fas fa-step-forward"></i>
-                </div>
-                <div class="audiocontrol">
-                    <i class="fas fa-sync"></i>
-                </div>
-                <div class="audiocontrol">
-                    <i class="fas fa-trash"></i>
-                </div>
-            </div>
+        <div class="icon icon-right" onclick="panel_update(this, 'ambiance', 'right');">
+            <a><i class="fab fa-envira"></i></a>
         </div>
-
     </div>
     <div id="music" class="column right panel">
         <h1>Music</h1>
-        <div class="card" onclick="up()"><i class="fas fa-level-up-alt"></i> Up level</div>
-        <div id="musiclist">
+            <div class="menu-item">
+                <p>New Tristram</p>
+                <audio controls src="media/audio/music/03 New Tristram.mp3"></audio>
+            </div>
+            <div class="menu-item">
+                <p>Garden of Hope</p>
+                <audio controls src="media/audio/music/Dungeon/19 Garden of Hope.mp3"></audio>
+            </div>
+            <div class="menu-item">
+                <p>Striking Out</p>
+                <audio controls src="media/audio/music/01_Theme_Striking Out.wav"></audio>
+            </div>
+    </div>
+    <div id="soundeffects" class="column right panel">
+        <h1>Sound Effects</h1>
+            <div class="menu-item">
+                <p>Airship Crash</p>
+                <audio controls src="media/audio/effect/airship-crash.wav"></audio>
+            </div>
+            <div class="menu-item">
+                <p>Fog Horn</p>
+                <audio controls src="media/audio/effect/fog-horn.wav"></audio>
+            </div>
+            <div class="menu-item">
+                <p>Klaxon</p>
+                <audio controls src="media/audio/effect/klaxon.wav"></audio>
+            </div>
         </div>
     </div>
-    <div id="mute" class="column right panel">
-        <h1>Mute</h1>
+    <div id="ambiance" class="column right panel">
+        <h1>Ambiance</h1>
+            <div class="menu-item">
+                <p>Windy Expanse</p>
+                <audio controls src="media/audio/ambiance/windy-expanse.mp3"></audio>
+            </div>
+            <div class="menu-item">
+                <p>Dungeon Interior</p>
+                <audio controls src="media/audio/ambiance/dungeon-interior.mp3"></audio>
+            </div>
+            <div class="menu-item">
+                <p>Ghost Ship</p>
+                <audio controls src="media/audio/ambiance/ghost-ship.mp3"></audio>
+            </div>
     </div>
 
     <div class="column middle">
