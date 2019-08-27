@@ -61,20 +61,7 @@ el.onmousemove = function (e) {
     var dist = distanceBetween(lastPoint, currentPoint);
     var angle = angleBetween(lastPoint, currentPoint);
 
-    for (var i = 0; i < dist; i += 5) {
-
-        x = lastPoint.x + (Math.sin(angle) * i);
-        y = lastPoint.y + (Math.cos(angle) * i);
-
-        var radgrad = contx.createRadialGradient(x, y, 10, x, y, 20);
-
-        radgrad.addColorStop(0, '#fff');
-        radgrad.addColorStop(0.5, 'rgba(255,255,255,0.5)');
-        radgrad.addColorStop(1, 'rgba(255,255,255,0)');
-
-        contx.fillStyle = radgrad;
-        contx.fillRect(x - 20, y - 20, 40, 40);
-    }
+    socket.emit('fog-update', [dist, angle, lastPoint, wid, hei]);
 
     lastPoint = currentPoint;
 };
@@ -82,3 +69,36 @@ el.onmousemove = function (e) {
 el.onmouseup = function () {
     isDrawing = false;
 };
+
+socket.on('fog-update', function (value) {
+    var dist = value[0]
+    var angle = value[1]
+    var lastPoint = value[2]
+    var wid = value[3]
+    var hei = value[4]
+
+    var width = $('#canvas_fog').width()
+    var height = $('#canvas_fog').height()
+
+    w_corr = width/wid
+    h_corr = height/hei
+    
+    for (var i = 0; i < dist; i += 5) {
+
+        x = (lastPoint.x + (Math.sin(angle) * i))*w_corr;
+        y = (lastPoint.y + (Math.cos(angle) * i))*h_corr;
+
+        var radgrad = contx.createRadialGradient(x, y, 10, x, y, 20*h_corr);
+
+        radgrad.addColorStop(0, '#fff');
+        radgrad.addColorStop(0.5, 'rgba(255,255,255,0.5)');
+        radgrad.addColorStop(1, 'rgba(255,255,255,0)');
+
+        contx.fillStyle = radgrad;
+        contx.fillRect(x - 20, y - 20, 40*w_corr, 40*h_corr);
+    }
+});
+
+socket.on('fog-reset', function () {
+    fogGeneralReset()
+});

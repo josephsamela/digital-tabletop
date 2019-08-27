@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Press F11 Fullscreen</title>
+    <script src="static/js/library.jquery-3.3.1.min.js"></script>
+    <script src="static/js/library.socket.io.dev.js"></script>
+    <!-- custom style sheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/main.css" />
+</head>
+
+<style>
+    body {
+        margin: 0px;
+    }
+
+    img {
+        height: 100vh;
+        /* width: 100vw; */
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .wrapper {
+        position: relative;
+        width: 100vw;
+        height: 100%;
+    }
+
+    .wrapper canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .middle {
+        background-color: black
+    }
+
+</style>
+
+<body style="background: black">
+    <div class="column middle">
+        <div class="wrapper">
+            <img id="map-preview" class="content" src="static/media/maps/default.jpg">
+            <canvas id="canvas_grid_square" class="content" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_grid_hex" class="content" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_darkness" class="content" width="2160" height="3840"></canvas>
+
+            <canvas id="canvas_effect_rain" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_effect_snow" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+
+            <canvas id="canvas_effect_thunderstorm1" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_effect_thunderstorm2" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+            <canvas id="canvas_effect_thunderstorm3" class="content effect" width="2160" height="3840" style="display: none"></canvas>
+
+            <canvas id="canvas_fog" class="content" width="2160" height="3840" style="display: none"></canvas>
+        </div>
+    <div>
+
+</body>
+
+<!-- board-sizing -->
+<script src="static/js/gameboard.board.js"></script>
+
+<!-- board -->
+<script src="static/js/gameboard.maps.js"></script>
+<script src="static/js/gameboard.effect.js"></script>
+<script src="static/js/gameboard.fog.js"></script>
+<script src="static/js/gameboard.grid.js"></script>
+
+<!-- main -->
+<script src="static/js/gameboard.main.js"></script> 
+
+<!-- effects -->
+<script src="static/js/effect.rain.js"></script>
+<script src="static/js/effect.snow.js"></script>
+<script src="static/js/effect.thunderstorm.js"></script>
+<script src="static/js/grid.square.js"></script>
+<script src="static/js/grid.hex.js"></script>
+<script src="static/js/effect.fog.js"></script>
+
+</html>

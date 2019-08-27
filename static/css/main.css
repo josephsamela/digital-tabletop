@@ -10,6 +10,7 @@ body{
 
 .column {
     height: 100vh;
+    transform: 300ms linear
 }
 
 .toolbar-left {
@@ -138,6 +139,10 @@ li {
     bottom: 0;
     left: 0;
     right:0;
+}
+
+canvas {
+    display: none
 }
 
 #canvas_fog{

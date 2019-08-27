@@ -4,13 +4,13 @@
 <head>
     <title>Dashboard</title>
     <!-- import icons -->
-    <script src="js/library.fontawesome.5.1.0.js"></script>
-    <!-- import fuse fuzzy finder -->
-    <script src="js/library.fuse.3.0.4.js"></script>
+    <script src="static/js/library.fontawesome.5.1.0.js"></script>
     <!-- import jquery -->
-    <script src="js/library.jquery-3.3.1.min.js"></script>
+    <script src="static/js/library.jquery-3.3.1.min.js"></script>
+    <!-- import socketio -->
+    <script src="static/js/library.socket.io.dev.js"></script>
     <!-- custom style sheet -->
-    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/main.css" />
 </head>
 
 <body>
@@ -33,16 +33,13 @@
     </div>
     <div id="map" class="column left panel">
         <h1>Maps</h1>
-        <li onclick="mapsMute(this)"><div class="menu-item"><input type="checkbox"> Mute</div></li>
+        <li onclick="dashboard_board_maps_mute(this)"><div class="menu-item"><input id="mute-control" type="checkbox"> Mute</div></li>
         <div id="map-panel-list">
-            <!-- populated by map list elements -->
             <p class="menu-label">
                 Maps
             </p>
-            <ul class="menu-list">
-                <li onclick="mapChange('./media/maps/Abbey of Saint Markovia - dungeon - this.jpg')"><div class="menu-item"> Abbey of Saint Markovia</div></li>
-                <li onclick="mapChange('./media/maps/Howling Caves - dungeon - These caves belonged to deep gnomes who had started.jpg')"><div class="menu-item"> Howling Caves</div></li>
-                <li onclick="mapChange('./media/maps/Plunging Torrents - dungeon - Dangerous waterfalls, sudden deluges, and weird elemental effects fill the Plunging Torrents, a cavernous extension of the Elemental Plane of Water.jpg')"><div class="menu-item"> Plunging Torrents</div></li>
+            <ul id="map-list" class="menu-list">
+                <!-- populated by map list elements -->
             </ul>
         </div>
     </div>
@@ -52,26 +49,26 @@
             Brightness
         </p>
         <ul>
-            <li><input type="range" step="0.01" min="0" max="1" value="0" oninput="effectBrightness(this);" style="width:100%"></li>
+            <li><input type="range" step="0.01" min="0" max="1" value="0" onchange="dashboard_board_effects_brightness(this);" style="width:100%"></li>
         </ul>
         <p class="menu-label">
             Weather
         </p>
         <ul class="menu-list">
-            <li onclick="effectWeatherRain(this)"><div class="menu-item"><input type="checkbox"> Rain</div></li>
-            <li onclick="effectWeatherThunderstorm(this)"><div class="menu-item"><input type="checkbox"> Thunderstorm</div></li>
-            <li onclick="effectWeatherSnow(this)"><div class="menu-item"><input type="checkbox"> Snow</div></li>
+            <li onclick="dashboard_board_effects_weather_rain(this)"><div class="menu-item"><input id="weather-rain-control" type="checkbox"> Rain</div></li>
+            <li onclick="dashboard_board_effects_weather_thunderstorm(this)"><div class="menu-item"><input id="weather-thunderstorm-control" type="checkbox"> Thunderstorm</div></li>
+            <li onclick="dashboard_board_effects_weather_snow(this)"><div class="menu-item"><input id="weather-snow-control" type="checkbox"> Snow</div></li>
         </ul>
     </div>
     <div id="fog" class="column left panel">
         <h1>Fog</h1>
-        <li onclick="fogEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
+        <li onclick="dashboard_board_fog_enable(this)"><div class="menu-item"><input id="fog-enable-control" type="checkbox"> Enable</div></li>
         <p class="menu-label">
             General
         </p>
         <ul>
-            <li onclick="fogGeneralDMView(this)"><div class="menu-item"><input type="checkbox"> DM View</div></li>
-            <li onclick="fogGeneralReset(this)"><div class="menu-item"> Reset</div></li>
+            <li onclick="dashboard_board_fog_general_dmview(this)"><div class="menu-item"><input id="fog-dmview-control" type="checkbox"> DM View</div></li>
+            <li onclick="dashboard_board_fog_reset(this)"><div id="fog-reset-control" class="menu-item"> Reset</div></li>
         </ul>
     </div>
     <div id="grid" class="column left panel">
@@ -80,17 +77,17 @@
             Square
         </p>
         <ul class="menu-list">
-            <li onclick="gridSquareEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
-            <li>Scale<input type="range" step="1" min="1" max="100" value="25" onchange="gridSquareScale(this);" style="width:100%"></li>
-            <li>Opacity<input type="range" step="0.01" min="0" max="1" value="0.6" onchange="gridSquareOpacity(this);" style="width:100%"></li>
+            <li onclick="dashboard_board_grid_square_enable(this)"><div class="menu-item"><input id="grid-square-enable-control" type="checkbox"> Enable</div></li>
+            <li>Scale<input type="range" step="1" min="1" max="100" value="25" onchange="dashboard_board_grid_square_scale(this);" style="width:100%"></li>
+            <li>Opacity<input type="range" step="0.01" min="0" max="1" value="0.6" onchange="dashboard_board_grid_square_opacity(this);" style="width:100%"></li>
         </ul>
         <p class="menu-label">
             Hex
         </p>
         <ul class="menu-list">
-            <li onclick="gridHexEnable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
-            <li>Scale<input type="range" step="1" min="1" max="40" value="10" onchange="gridHexScale(this);" style="width:100%"></li>
-            <li>Opacity<input type="range" step="0.01" min="0" max="1" value="0.6" onchange="gridHexOpacity(this);" style="width:100%"></li>
+            <li onclick="dashboard_board_hex_square_enable(this)"><div class="menu-item"><input type="checkbox"> Enable</div></li>
+            <li>Scale<input type="range" step="1" min="1" max="40" value="10" onchange="dashboard_board_hex_square_scale(this);" style="width:100%"></li>
+            <li>Opacity<input type="range" step="0.01" min="0" max="1" value="0.6" onchange="dashboard_board_hex_square_opacity(this);" style="width:100%"></li>
         </ul>
     </div>
     <div id="setting" class="column left panel">
@@ -118,30 +115,30 @@
         <h1>Music</h1>
             <div class="menu-item">
                 <p>New Tristram</p>
-                <audio controls src="media/audio/music/03 New Tristram.mp3"></audio>
+                <audio controls src="static/media/audio/music/03 New Tristram.mp3"></audio>
             </div>
             <div class="menu-item">
                 <p>Garden of Hope</p>
-                <audio controls src="media/audio/music/Dungeon/19 Garden of Hope.mp3"></audio>
+                <audio controls src="static/media/audio/music/Dungeon/19 Garden of Hope.mp3"></audio>
             </div>
             <div class="menu-item">
                 <p>Striking Out</p>
-                <audio controls src="media/audio/music/01_Theme_Striking Out.wav"></audio>
+                <audio controls src="static/media/audio/music/01_Theme_Striking Out.wav"></audio>
             </div>
     </div>
     <div id="soundeffects" class="column right panel">
         <h1>Sound Effects</h1>
             <div class="menu-item">
                 <p>Airship Crash</p>
-                <audio controls src="media/audio/effect/airship-crash.wav"></audio>
+                <audio controls src="static/media/audio/effect/airship-crash.wav"></audio>
             </div>
             <div class="menu-item">
                 <p>Fog Horn</p>
-                <audio controls src="media/audio/effect/fog-horn.wav"></audio>
+                <audio controls src="static/media/audio/effect/fog-horn.wav"></audio>
             </div>
             <div class="menu-item">
                 <p>Klaxon</p>
-                <audio controls src="media/audio/effect/klaxon.wav"></audio>
+                <audio controls src="static/media/audio/effect/klaxon.wav"></audio>
             </div>
         </div>
     </div>
@@ -149,21 +146,21 @@
         <h1>Ambiance</h1>
             <div class="menu-item">
                 <p>Windy Expanse</p>
-                <audio controls src="media/audio/ambiance/windy-expanse.mp3"></audio>
+                <audio controls src="static/media/audio/ambiance/windy-expanse.mp3"></audio>
             </div>
             <div class="menu-item">
                 <p>Dungeon Interior</p>
-                <audio controls src="media/audio/ambiance/dungeon-interior.mp3"></audio>
+                <audio controls src="static/media/audio/ambiance/dungeon-interior.mp3"></audio>
             </div>
             <div class="menu-item">
                 <p>Ghost Ship</p>
-                <audio controls src="media/audio/ambiance/ghost-ship.mp3"></audio>
+                <audio controls src="static/media/audio/ambiance/ghost-ship.mp3"></audio>
             </div>
     </div>
 
     <div class="column middle">
         <div class="wrapper">
-            <img id="map-preview" class="content" src="media/maps/default.jpg">
+            <img id="map-preview" class="content" src="static/media/maps/default.jpg">
             <canvas id="canvas_grid_square" class="content" width="2160" height="3840" style="display: none"></canvas>
             <canvas id="canvas_grid_hex" class="content" width="2160" height="3840" style="display: none"></canvas>
             <canvas id="canvas_darkness" class="content" width="2160" height="3840"></canvas>
@@ -175,36 +172,33 @@
             <canvas id="canvas_effect_thunderstorm2" class="content effect" width="2160" height="3840" style="display: none"></canvas>
             <canvas id="canvas_effect_thunderstorm3" class="content effect" width="2160" height="3840" style="display: none"></canvas>
 
-            
             <canvas id="canvas_fog" class="content" width="2160" height="3840" style="display: none"></canvas>
         </div>
     </div>
 </body>
 
-<!-- game board -->
-<script src="js/dashboard.board.js"></script>
-
-<!-- effects -->
-
-<script src="js/effect.rain.js"></script>
-<script src="js/effect.snow.js"></script>
-<script src="js/effect.thunderstorm.js"></script>
-<script src="js/grid.square.js"></script>
-<script src="js/grid.hex.js"></script>
-<script src="js/effect.fog.js"></script>
-
+<!-- dashboard -->
+<script src="static/js/dashboard.board.js"></script>
 
 <!-- right tabs -->
-<script src="js/dashboard.maps.js"></script>
-<script src="js/dashboard.video.js"></script>
-<script src="js/dashboard.effect.js"></script>
-<script src="js/dashboard.fog.js"></script>
-<script src="js/dashboard.grid.js"></script>
-<script src="js/dashboard.settings.js"></script>
+<script src="static/js/dashboard.maps.js"></script>
+<script src="static/js/dashboard.effect.js"></script>
+<script src="static/js/dashboard.fog.js"></script>
+<script src="static/js/dashboard.grid.js"></script>
+<script src="static/js/dashboard.settings.js"></script>
 
 <!-- left tabs -->
 <!-- <script src="js/dashboard.audio.js"></script> -->
 
-<script src="js/dashboard.main.js"></script>
+<!-- main -->
+<script src="static/js/dashboard.main.js"></script>
+
+<!-- effects -->
+<script src="static/js/effect.rain.js"></script>
+<script src="static/js/effect.snow.js"></script>
+<script src="static/js/effect.thunderstorm.js"></script>
+<script src="static/js/grid.square.js"></script>
+<script src="static/js/grid.hex.js"></script>
+<script src="static/js/effect.fog.js"></script>
 
 </html>

@@ -1,28 +1,46 @@
-var maps = {
-    mute: false,
-    current: 'media/maps/default.jpg'
+//
+// Updates
+// 
+function update_dashboard_board_maps() {
+    drawMapList(STATE.board.maps.maps)
+    mapChange(STATE.board.maps)
+    mapsMute(STATE.board.maps.mute)
 }
 
-function mapsMute(t) {
-    maps.mute = !maps.mute
-    updateToggleState(t, maps.mute)
-    console.log('mapsMute is ' + maps.mute)
-
-    if (maps.mute == true) {
-        $('#map-preview')[0].src = 'media/maps/default.jpg';
-    } else {
-        $('#map-preview')[0].src = maps.current;
-    }
+// 
+// Button callbacks
+// 
+function dashboard_board_maps_mute(that) {
+    STATE.board.maps.mute = that.childNodes[0].childNodes[0].checked
+    socket.emit('client-update', STATE);
+}
+function dashboard_board_maps_change(url) {
+    STATE.board.maps.current.url = url
+    socket.emit('client-update', STATE);
 }
 
-$("#map-preview").on("load", function() {
+// 
+// Client updates
+// 
+function drawMapList(maps) {
+    $("#map-list").empty();
+    $.each(maps, function (i,m) {
+        var title = m.title
+        var url = m.url
+        $("#map-list").append(
+            `<li onclick="dashboard_board_maps_change('` + url + `')"><div class="menu-item"> ` + title + `</div></li>`
+        )
+    });
+}
+function mapsMute(state) {
+    updateToggleState('#mute-control', state)
+}
+$("#map-preview").on("load", function () {
     dashboardCanvasResize()
 });
-
-function mapChange(path) {
-    maps.current = path
+function mapChange(maps) {
     if (maps.mute == false) {
-        $("#map-preview").attr('src',maps.current)
+        $("#map-preview").attr('src', maps.current.url)
     }
 }
 

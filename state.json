@@ -1,0 +1,97 @@
+{
+    "board": {
+        "maps": {
+            "mute": false,
+            "current": {
+                "title": "Default",
+                "url": "/static/media/maps/default.jpg"
+            },
+            "maps": [
+                {
+                    "title": "Abbey of Saint Markovia",
+                    "url": "static/media/maps/Abbey of Saint Markovia - dungeon - this.jpg"
+                },
+                {
+                    "title": "Howling Caves",
+                    "url": "static/media/maps/Howling Caves - dungeon - These caves belonged to deep gnomes who had started.jpg"
+                },
+                {
+                    "title": "Plunging Torrents",
+                    "url": "static/media/maps/Plunging Torrents - dungeon - Dangerous waterfalls, sudden deluges, and weird elemental effects fill the Plunging Torrents, a cavernous extension of the Elemental Plane of Water.jpg"
+                }
+            ]
+        },
+        "effects": {
+            "brightness": 0,
+            "weather": {
+                "rain": false,
+                "thunderstorm": false,
+                "snow": false
+            }
+        },
+        "fog": {
+            "enable": false,
+            "path":[],
+            "general": {
+                "dmview": false
+            }
+        },
+        "grid": {
+            "square": {
+                "enable": false,
+                "scale": 25,
+                "opacity": 0.6
+            },
+            "hex": {
+                "enable": false,
+                "scale": 10,
+                "opacity": 0.6
+            }
+        },
+        "settings": {}
+    },
+    "audio": {
+        "music": [
+            {
+                "name": "New Tristam",
+                "url": ""
+            },
+            {
+                "name": "Garden of Hope",
+                "url": ""
+            },
+            {
+                "name": "Striking Out",
+                "url": ""
+            }
+        ],
+        "soundeffects": [
+            {
+                "name": "Airship Crash",
+                "url": ""
+            },
+            {
+                "name": "Fog Horn",
+                "url": ""
+            },
+            {
+                "name": "Klaxon",
+                "url": ""
+            }
+        ],
+        "ambiance": [
+            {
+                "name": "Windy Expanse",
+                "url": ""
+            },
+            {
+                "name": "Dungeon Interior",
+                "url": ""
+            },
+            {
+                "name": "Ghost Ship",
+                "url": ""
+            }
+        ]
+    }
+}
