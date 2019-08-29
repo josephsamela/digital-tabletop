@@ -22,7 +22,6 @@ socket.on('update', function (state) {
     // update_dashboard_audio_ambiance(state)
 })
 
-
 // 
 // Dashboard Client Panel Interactions
 // 

@@ -11,6 +11,7 @@ function update_dashboard_board_maps() {
 // Button callbacks
 // 
 function dashboard_board_maps_mute(that) {
+    updateToggleState('#mute-control', !STATE.board.maps.mute)
     STATE.board.maps.mute = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }

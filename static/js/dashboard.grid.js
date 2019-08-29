@@ -1,15 +1,3 @@
-// "grid": {
-//     "square": {
-//         "enable": false,
-//         "scale": 25,
-//         "opacity": 0.6
-//     },
-//     "hex": {
-//         "enable": false,
-//         "scale": 100,
-//         "opacity": 0.6
-//     }
-
 //
 // Updates
 // 
@@ -26,6 +14,7 @@ function update_dashboard_board_grid() {
 // Button callbacks
 // 
 function dashboard_board_grid_square_enable(that) {
+    updateToggleState('#grid-square-enable-control', !STATE.board.grid.square.enable)
     STATE.board.grid.square.enable = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }
@@ -38,6 +27,7 @@ function dashboard_board_grid_square_opacity(that) {
     socket.emit('client-update', STATE);
 }
 function dashboard_board_hex_square_enable(that) {
+    updateToggleState('#grid-hex-enable-control', !STATE.board.grid.hex.enable)
     STATE.board.grid.hex.enable = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }

@@ -10,10 +10,12 @@ function update_dashboard_board_fog() {
 // Button callbacks
 // 
 function dashboard_board_fog_enable(that) {
+    updateToggleState('#fog-enable-control', !STATE.board.fog.enable)
     STATE.board.fog.enable = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }
 function dashboard_board_fog_general_dmview(that) {
+    updateToggleState('#fog-dmview-control', !STATE.board.fog.general.dmview)
     STATE.board.fog.general.dmview = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }
@@ -34,7 +36,7 @@ function fogEnable(bool) {
 }
 
 function fogGeneralDMView(bool) {
-    updateToggleState('#fog-enable-dmview', bool)
+    updateToggleState('#fog-dmview-control', bool)
     if (bool == true){
         $('#canvas_fog').css('mix-blend-mode', 'difference')
         $('#canvas_fog').css('filter', 'invert(1)')

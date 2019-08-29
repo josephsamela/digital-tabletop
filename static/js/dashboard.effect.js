@@ -16,14 +16,17 @@ function dashboard_board_effects_brightness(that) {
     socket.emit('client-update', STATE);
 }
 function dashboard_board_effects_weather_rain(that) {
+    updateToggleState('#weather-rain-control', !STATE.board.effects.weather.rain)
     STATE.board.effects.weather.rain = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }
 function dashboard_board_effects_weather_thunderstorm(that) {
+    updateToggleState('#weather-thunderstorm-control', !STATE.board.effects.weather.thunderstorm)
     STATE.board.effects.weather.thunderstorm = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }
 function dashboard_board_effects_weather_snow(that) {
+    updateToggleState('#weather-snow-control', !STATE.board.effects.weather.snow)
     STATE.board.effects.weather.snow = that.childNodes[0].childNodes[0].checked
     socket.emit('client-update', STATE);
 }
@@ -65,4 +68,5 @@ function effectWeatherSnow(bool) {
     } else {
         $('#canvas_effect_snow').hide()
     } 
+    dashboardCanvasResize()
 }
